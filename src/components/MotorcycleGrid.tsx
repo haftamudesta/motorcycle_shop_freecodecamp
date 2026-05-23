@@ -1,5 +1,5 @@
 import React from "react";
-import { Motorcycle } from "../types/motorcycle";
+import { type Motorcycle } from "../types/motorcycle";
 import { MotorcycleCard } from "./MotorcycleCard";
 
 interface MotorcycleGridProps {
