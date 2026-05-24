@@ -89,7 +89,7 @@ export const MotorcycleDetailPage: React.FC = () => {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <button
         onClick={() => navigate("/")}
-        className="mb-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors flex items-center gap-2"
+        className="mb-12 px-4 py-2 bg-sky-400 text-amber-300 rounded-lg hover:bg-gray-300 transition-colors flex items-center gap-2"
       >
         ← Back to all motorcycles
       </button>
