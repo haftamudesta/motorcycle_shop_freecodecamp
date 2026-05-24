@@ -17,3 +17,7 @@ export async function fetchMotorcycles(): Promise<Motorcycle[]> {
         horsepower: Math.floor(Math.random() * (200 - 80 + 1) + 80)
     }));
 }
+export async function fetchMotorcycleById(id: string): Promise<Motorcycle | undefined> {
+    const motorcycles = await fetchMotorcycles();
+    return motorcycles.find(motorcycle => motorcycle.id === id);
+}
