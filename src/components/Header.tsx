@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,11 +10,20 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   searchTerm,
 }) => {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <header className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
-          <div className="flex items-center gap-3">
+          <div
+            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleLogoClick}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

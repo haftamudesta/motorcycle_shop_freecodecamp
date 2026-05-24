@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { type Motorcycle } from "../types/motorcycle";
 
 interface MotorcycleCardProps {
@@ -8,6 +9,8 @@ interface MotorcycleCardProps {
 export const MotorcycleCard: React.FC<MotorcycleCardProps> = ({
   motorcycle,
 }) => {
+  const navigate = useNavigate();
+
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -22,6 +25,10 @@ export const MotorcycleCard: React.FC<MotorcycleCardProps> = ({
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
+  };
+
+  const handleViewDetails = () => {
+    navigate(`/motorcycle/${motorcycle.id}`);
   };
 
   return (
@@ -58,7 +65,12 @@ export const MotorcycleCard: React.FC<MotorcycleCardProps> = ({
               {motorcycle.horsepower} HP
             </div>
           </div>
-          <button className="motorcycle-card-button">View Details</button>
+          <button
+            className="motorcycle-card-button"
+            onClick={handleViewDetails}
+          >
+            View Details
+          </button>
         </div>
       </div>
     </div>
