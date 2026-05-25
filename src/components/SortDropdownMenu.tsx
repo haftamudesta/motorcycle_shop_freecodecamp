@@ -6,8 +6,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { type SortOption } from "../types/sorting";
@@ -105,17 +103,16 @@ export const SortDropdownMenu: React.FC<SortDropdownMenuProps> = ({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="gap-2 bg-white border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all"
+          className="gap-2 bg-sky-400 border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all text-black w-24"
         >
-          <ArrowUpDown className="w-4 h-4" />
-          <span className="hidden sm:inline">Sort</span>
-          <span className="sm:hidden">Sort</span>
+          <ArrowUpDown />
+          Sort By
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-72 bg-white border-gray-200 shadow-xl">
         <DropdownMenuLabel className="flex items-center gap-2">
           <ArrowUpDown className="w-4 h-4 text-orange-500" />
-          <span>Sort Motorcycles</span>
+          <span className="text-red-500">Sort Motorcycles</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
