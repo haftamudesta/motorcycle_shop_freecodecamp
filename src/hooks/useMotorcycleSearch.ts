@@ -87,6 +87,7 @@ export function useMotorcycleSearch() {
     }, [sortOption]);
 
     return {
+        motorcycles,
         filteredMotorcycles,
         searchTerm,
         loading,
