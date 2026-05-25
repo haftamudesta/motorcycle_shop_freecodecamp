@@ -5,14 +5,16 @@ import { Hero } from "./components/Hero";
 import { MotorcycleGrid } from "./components/MotorcycleGrid";
 import { Footer } from "./components/Footer";
 import { MotorcycleDetailPage } from "./pages/MotorcycleDetailPage";
-import { useMotorcycleSearch } from "./hooks/useMotorcycleSearch";
-import "./App.css";
 import { WishlistPage } from "./pages/WishlistPage";
 import { RecentlyViewed } from "./components/RecentlyViewed";
+import { useMotorcycleSearch } from "./hooks/useMotorcycleSearch";
+import { useSearchHistoryStore } from "./store/searchHistoryStore";
+import "./App.css";
 
 function App() {
   const location = useLocation();
   const isDetailsPage = location.pathname.includes("/motorcycle/");
+  const isWishlistPage = location.pathname === "/wishlist";
 
   const {
     filteredMotorcycles,
@@ -22,15 +24,41 @@ function App() {
     sortOption,
     handleSortChange,
     totalResults,
+    motorcycles, // Add this to your hook
   } = useMotorcycleSearch();
+
+  const { recentSearches, addSearch, clearRecentSearches } =
+    useSearchHistoryStore();
+
+  // Don't show search/sort on wishlist page or details page
+  const showSearchAndSort = !isWishlistPage && !isDetailsPage;
+
+  const handleSuggestionClick = (suggestion: string) => {
+    // Create a synthetic event to update the search term
+    const event = {
+      target: { value: suggestion },
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleSearchChange(event);
+    addSearch(suggestion);
+  };
+
+  const handleSearchChangeWithHistory = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    handleSearchChange(e);
+  };
 
   return (
     <div id="app" className="min-h-screen flex flex-col">
       <Header
-        onSearchChange={handleSearchChange}
+        onSearchChange={handleSearchChangeWithHistory}
         searchTerm={searchTerm}
         sortOption={sortOption}
         onSortChange={handleSortChange}
+        motorcycles={motorcycles}
+        recentSearches={recentSearches}
+        onClearRecentSearches={clearRecentSearches}
+        onSuggestionClick={handleSuggestionClick}
       />
 
       <Routes>
@@ -40,30 +68,33 @@ function App() {
             <>
               <Hero />
               <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="mb-6 flex justify-between items-center">
-                  <div id="results-count" className="results-count">
-                    <p className="text-gray-600">
-                      Showing{" "}
-                      <span
-                        id="results-number"
-                        className="font-bold text-orange-600"
-                      >
-                        {totalResults}
-                      </span>{" "}
-                      motorcycles
-                    </p>
-                  </div>
-
-                  {sortOption && (
-                    <div className="text-sm text-gray-500 hidden md:block">
-                      Sorted by:{" "}
-                      <span className="font-medium text-gray-700">
-                        {sortOption.replace("-", " ").replace(/-/g, " ")}
-                      </span>
+                {showSearchAndSort && (
+                  <div className="mb-6 flex justify-between items-center">
+                    <div id="results-count" className="results-count">
+                      <p className="text-gray-600">
+                        Showing{" "}
+                        <span
+                          id="results-number"
+                          className="font-bold text-orange-600"
+                        >
+                          {totalResults}
+                        </span>{" "}
+                        motorcycles
+                      </p>
                     </div>
-                  )}
-                </div>
 
+                    {sortOption && (
+                      <div className="text-sm text-gray-500 hidden md:block">
+                        Sorted by:{" "}
+                        <span className="font-medium text-gray-700">
+                          {sortOption.replace("-", " ").replace(/-/g, " ")}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Recently Viewed Section */}
                 <RecentlyViewed />
 
                 <MotorcycleGrid
@@ -78,7 +109,8 @@ function App() {
         <Route path="/wishlist" element={<WishlistPage />} />
       </Routes>
 
-      {!isDetailsPage && <Footer />}
+      {/* Only show Footer on non-details and non-wishlist pages */}
+      {!isDetailsPage && !isWishlistPage && <Footer />}
     </div>
   );
 }
