@@ -1,6 +1,7 @@
 import React from "react";
 import type { SortOption } from "../types/sorting";
 import { SortDropdownMenu } from "./SortDropdownMenu";
+import { WishlistIcon } from "./WishlistIcon";
 
 interface HeaderProps {
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,10 +17,11 @@ export const Header: React.FC<HeaderProps> = ({
   onSortChange,
 }) => {
   return (
-    <header className="bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-50  h-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+    <header className="bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-50 h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex items-center justify-between gap-4 h-full">
+          {/* Logo Section */}
+          <div className="flex items-center gap-3 flex-shrink-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -42,8 +44,9 @@ export const Header: React.FC<HeaderProps> = ({
             </h1>
           </div>
 
-          <div className="flex-1 w-full flex sm:flex-row gap-3">
-            <div className="relative flex-1">
+          {/* Search and Actions Section */}
+          <div className="flex-1 flex items-center gap-3">
+            <div className="relative flex-1 max-w-2xl">
               <input
                 type="text"
                 id="name-filter-input"
@@ -68,7 +71,9 @@ export const Header: React.FC<HeaderProps> = ({
                 <path d="m21 21-4.35-4.35" />
               </svg>
             </div>
+
             <SortDropdownMenu onSort={onSortChange} currentSort={sortOption} />
+            <WishlistIcon />
           </div>
         </div>
       </div>

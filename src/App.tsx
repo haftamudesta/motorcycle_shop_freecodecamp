@@ -7,6 +7,7 @@ import { Footer } from "./components/Footer";
 import { MotorcycleDetailPage } from "./pages/MotorcycleDetailPage";
 import { useMotorcycleSearch } from "./hooks/useMotorcycleSearch";
 import "./App.css";
+import { WishlistPage } from "./pages/WishlistPage";
 
 function App() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function App() {
           }
         />
         <Route path="/motorcycle/:id" element={<MotorcycleDetailPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
       </Routes>
 
       {!isDetailsPage && <Footer />}
