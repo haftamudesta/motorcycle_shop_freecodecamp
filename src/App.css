@@ -344,10 +344,159 @@ body {
   animation: pulse 2s infinite;
 }
 
+/* Recently Viewed Section */
+.recently-viewed-section {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.recently-viewed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.recently-viewed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.recently-viewed-card {
+  position: relative;
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recently-viewed-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.recently-viewed-image {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+}
+
+.recently-viewed-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recently-viewed-card:hover .recently-viewed-image img {
+  transform: scale(1.1);
+}
+
+.recently-viewed-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: white;
+}
+
+.recently-viewed-card:hover .recently-viewed-overlay {
+  opacity: 1;
+}
+
+.recently-viewed-overlay span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.recently-viewed-content {
+  padding: 0.75rem;
+}
+
+.recently-viewed-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recently-viewed-manufacturer {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.recently-viewed-price {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #f97316;
+}
+
+.recently-viewed-remove {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: all 0.2s;
+  opacity: 0;
+}
+
+.recently-viewed-card:hover .recently-viewed-remove {
+  opacity: 1;
+}
+
+.recently-viewed-remove:hover {
+  background: #ef4444;
+  transform: scale(1.1);
+}
+
+
 @media (min-width: 768px) {
   .motorcycle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+    .recently-viewed-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+  
+    .recently-viewed-section {
+      padding: 1rem;
+    }
+  
+    .recently-viewed-title {
+      font-size: 0.75rem;
+    }
 }
 
 @media (min-width: 1024px) {
