@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Heart, Share2, Clock } from "lucide-react";
 import type { Motorcycle } from "../types/motorcycle";
 import { fetchMotorcycleById } from "../services/motorcycleService";
+import { useWishlistStore } from "../store/wishlistStore";
+import { useRecentlyViewedStore } from "../store/recentlyViewedStore";
 
 export const MotorcycleDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -9,6 +12,10 @@ export const MotorcycleDetailPage: React.FC = () => {
   const [motorcycle, setMotorcycle] = useState<Motorcycle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const { isInWishlist, toggleWishlist } = useWishlistStore();
+  const { addToRecentlyViewed } = useRecentlyViewedStore();
+  const isWishlisted = isInWishlist(id || "");
 
   useEffect(() => {
     const loadMotorcycle = async () => {
@@ -23,6 +30,8 @@ export const MotorcycleDetailPage: React.FC = () => {
         const data = await fetchMotorcycleById(id);
         if (data) {
           setMotorcycle(data);
+          // Add to recently viewed when motorcycle is loaded
+          addToRecentlyViewed(data);
         } else {
           setError(true);
         }
@@ -35,7 +44,7 @@ export const MotorcycleDetailPage: React.FC = () => {
     };
 
     loadMotorcycle();
-  }, [id]);
+  }, [id, addToRecentlyViewed]);
 
   const formattedPrice = motorcycle
     ? new Intl.NumberFormat("en-US", {
@@ -45,6 +54,34 @@ export const MotorcycleDetailPage: React.FC = () => {
         maximumFractionDigits: 0,
       }).format(motorcycle.price)
     : "";
+
+  const handleWishlistToggle = () => {
+    if (motorcycle) {
+      toggleWishlist(motorcycle);
+    }
+  };
+
+  const handleShare = async () => {
+    if (motorcycle) {
+      const shareData = {
+        title: motorcycle.name,
+        text: `Check out ${motorcycle.name} by ${motorcycle.manufacturer}`,
+        url: window.location.href,
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (error) {
+          console.log("Error sharing:", error);
+        }
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -89,7 +126,7 @@ export const MotorcycleDetailPage: React.FC = () => {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <button
         onClick={() => navigate("/")}
-        className="mb-12 px-4 py-2 bg-sky-400 text-amber-300 rounded-lg hover:bg-gray-300 transition-colors flex items-center gap-2"
+        className="mb-12 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
       >
         ← Back to all motorcycles
       </button>
@@ -183,8 +220,32 @@ export const MotorcycleDetailPage: React.FC = () => {
               </div>
             </div>
 
+            <div className="mt-8 flex gap-3">
+              <button
+                onClick={handleWishlistToggle}
+                className={`flex-1 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 ${
+                  isWishlisted
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                <Heart
+                  className={`w-5 h-5 ${isWishlisted ? "fill-white" : ""}`}
+                />
+                {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+              </button>
+
+              <button
+                onClick={handleShare}
+                className="flex-1 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <Share2 className="w-5 h-5" />
+                Share
+              </button>
+            </div>
+
             <button
-              className="mt-8 w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+              className="mt-3 w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
               onClick={() => alert(`Inquiry sent for ${motorcycle.name}`)}
             >
               Inquire Now
