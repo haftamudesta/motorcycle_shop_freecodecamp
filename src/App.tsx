@@ -8,6 +8,7 @@ import { MotorcycleDetailPage } from "./pages/MotorcycleDetailPage";
 import { useMotorcycleSearch } from "./hooks/useMotorcycleSearch";
 import "./App.css";
 import { WishlistPage } from "./pages/WishlistPage";
+import { RecentlyViewed } from "./components/RecentlyViewed";
 
 function App() {
   const location = useLocation();
@@ -62,6 +63,8 @@ function App() {
                     </div>
                   )}
                 </div>
+
+                <RecentlyViewed />
 
                 <MotorcycleGrid
                   motorcycles={filteredMotorcycles}
