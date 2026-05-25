@@ -480,6 +480,55 @@ body {
   transform: scale(1.1);
 }
 
+/* Search Suggestions Animation */
+.search-suggestions-wrapper {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar for suggestions */
+.search-suggestions-wrapper .overflow-y-auto {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-suggestions-wrapper .overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-suggestions-wrapper .overflow-y-auto::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 3px;
+}
+
+.search-suggestions-wrapper .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+.search-suggestions-wrapper .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Highlight matching text */
+.suggestion-highlight {
+  background: #f97316;
+  color: white;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
 
 @media (min-width: 768px) {
   .motorcycle-grid {
