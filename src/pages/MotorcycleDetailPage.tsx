@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Heart, Share2, Clock } from "lucide-react";
+import { Heart, Share2 } from "lucide-react";
 import type { Motorcycle } from "../types/motorcycle";
 import { fetchMotorcycleById } from "../services/motorcycleService";
 import { useWishlistStore } from "../store/wishlistStore";
 import { useRecentlyViewedStore } from "../store/recentlyViewedStore";
+import { useAnalyticsStore } from "../store/analyticsStore";
 
 export const MotorcycleDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,7 @@ export const MotorcycleDetailPage: React.FC = () => {
   const { isInWishlist, toggleWishlist } = useWishlistStore();
   const { addToRecentlyViewed } = useRecentlyViewedStore();
   const isWishlisted = isInWishlist(id || "");
+  const { incrementViewCount } = useAnalyticsStore();
 
   useEffect(() => {
     const loadMotorcycle = async () => {
@@ -32,6 +34,8 @@ export const MotorcycleDetailPage: React.FC = () => {
           setMotorcycle(data);
           // Add to recently viewed when motorcycle is loaded
           addToRecentlyViewed(data);
+          // Track view for analytics
+          incrementViewCount(data.id);
         } else {
           setError(true);
         }

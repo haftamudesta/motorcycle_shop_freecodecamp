@@ -7,6 +7,8 @@ import { Footer } from "./components/Footer";
 import { MotorcycleDetailPage } from "./pages/MotorcycleDetailPage";
 import { WishlistPage } from "./pages/WishlistPage";
 import { RecentlyViewed } from "./components/RecentlyViewed";
+import { PopularMotorcycles } from "./components/PopularMotorcycles";
+import { AnalyticsDashboard } from "./components/AnalyticsDashboard";
 import { useMotorcycleSearch } from "./hooks/useMotorcycleSearch";
 import { useSearchHistoryStore } from "./store/searchHistoryStore";
 import "./App.css";
@@ -15,6 +17,7 @@ function App() {
   const location = useLocation();
   const isDetailsPage = location.pathname.includes("/motorcycle/");
   const isWishlistPage = location.pathname === "/wishlist";
+  const isAnalyticsPage = location.pathname === "/analytics";
 
   const {
     filteredMotorcycles,
@@ -24,14 +27,16 @@ function App() {
     sortOption,
     handleSortChange,
     totalResults,
-    motorcycles, // Add this to your hook
+    motorcycles,
   } = useMotorcycleSearch();
 
   const { recentSearches, addSearch, clearRecentSearches } =
     useSearchHistoryStore();
 
-  // Don't show search/sort on wishlist page or details page
-  const showSearchAndSort = !isWishlistPage && !isDetailsPage;
+  // Don't show search/sort on wishlist page, details page, or analytics page
+  const showSearchAndSort =
+    !isWishlistPage && !isDetailsPage && !isAnalyticsPage;
+  const showHero = !isDetailsPage && !isAnalyticsPage;
 
   const handleSuggestionClick = (suggestion: string) => {
     // Create a synthetic event to update the search term
@@ -66,7 +71,7 @@ function App() {
           path="/"
           element={
             <>
-              <Hero />
+              {showHero && <Hero />}
               <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {showSearchAndSort && (
                   <div className="mb-6 flex justify-between items-center">
@@ -94,7 +99,8 @@ function App() {
                   </div>
                 )}
 
-                {/* Recently Viewed Section */}
+                <PopularMotorcycles motorcycles={motorcycles} />
+
                 <RecentlyViewed />
 
                 <MotorcycleGrid
@@ -107,10 +113,17 @@ function App() {
         />
         <Route path="/motorcycle/:id" element={<MotorcycleDetailPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
+        <Route
+          path="/analytics"
+          element={
+            <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+              <AnalyticsDashboard motorcycles={motorcycles} />
+            </main>
+          }
+        />
       </Routes>
 
-      {/* Only show Footer on non-details and non-wishlist pages */}
-      {!isDetailsPage && !isWishlistPage && <Footer />}
+      {!isDetailsPage && !isWishlistPage && !isAnalyticsPage && <Footer />}
     </div>
   );
 }
