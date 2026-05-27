@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DealershipMap } from "../components/DealershipMap";
-import { Motorcycle } from "../types/motorcycle";
+import { type Motorcycle } from "../types/motorcycle";
 import { Filter, X } from "lucide-react";
 
 interface MapPageProps {
