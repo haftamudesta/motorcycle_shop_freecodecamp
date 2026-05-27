@@ -11,6 +11,7 @@ import { PopularMotorcycles } from "./components/PopularMotorcycles";
 import { AnalyticsDashboard } from "./components/AnalyticsDashboard";
 import { useMotorcycleSearch } from "./hooks/useMotorcycleSearch";
 import { useSearchHistoryStore } from "./store/searchHistoryStore";
+import { MapPage } from "./pages/MapPage";
 import "./App.css";
 
 function App() {
@@ -118,6 +119,14 @@ function App() {
           element={
             <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
               <AnalyticsDashboard motorcycles={motorcycles} />
+            </main>
+          }
+        />
+        <Route
+          path="/map"
+          element={
+            <main className="flex-1">
+              <MapPage motorcycles={motorcycles} />
             </main>
           }
         />

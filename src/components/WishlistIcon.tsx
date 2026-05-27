@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, BarChart } from "lucide-react";
+import { Heart, BarChart, MapPin } from "lucide-react";
 import { useWishlistStore } from "../store/wishlistStore";
 
 export const WishlistIcon: React.FC = () => {
@@ -9,6 +9,13 @@ export const WishlistIcon: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
+      <button
+        onClick={() => navigate("/map")}
+        className="relative p-2 rounded-lg hover:bg-gray-700 transition-colors group"
+        aria-label="Find Dealerships"
+      >
+        <MapPin className="w-5 h-5 text-gray-300 group-hover:text-green-500 transition-colors" />
+      </button>
       <button
         onClick={() => navigate("/analytics")}
         className="relative p-2 rounded-lg hover:bg-gray-700 transition-colors group"
