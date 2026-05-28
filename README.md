@@ -89,7 +89,7 @@ code .
 - [ ] Install TypeScript (for development):
 
 ```
-npm install -g typescript
+npm install
 ```
 
 ### Usage
@@ -97,11 +97,11 @@ npm install -g typescript
 To run the project, execute the following command:
 
 ```
-tsc index.ts --target es2017 --lib es2017,dom --watch
+npm run dev
 ```
 
 ```
-Open the index.html file in your web browser
+Open your browser and visit http://localhost:3000
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
